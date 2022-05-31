@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:local_auth/local_auth.dart';
 
 void main(List<String> args) {
   runApp(const MaterialApp(
@@ -15,10 +16,11 @@ class MyApp extends StatefulWidget {
 
 class _MyAppState extends State<MyApp> {
   bool _isAuthorised = false;
+  final LocalAuthentication auth = LocalAuthentication();
   @override
   void initState() {
     super.initState();
-    _isAuthorised = true;
+    _isAuthorised = false;
   }
 
   @override
@@ -48,7 +50,21 @@ class _MyAppState extends State<MyApp> {
               height: 15,
             ),
             ElevatedButton(
-                onPressed: () {},
+                onPressed: () async {
+                  try {
+                    bool isAuth =
+                        await auth.authenticate(localizedReason: 'Authorize');
+
+                    setState(() {
+                      _isAuthorised = isAuth;
+                    });
+                  } on Exception catch (e) {
+                    debugPrint(e.toString());
+                    setState(() {
+                      _isAuthorised = false;
+                    });
+                  }
+                },
                 style: ElevatedButton.styleFrom(
                   primary: Colors.white,
                 ),
