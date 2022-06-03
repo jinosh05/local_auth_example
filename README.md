@@ -13,7 +13,7 @@ Just a simple app to Bio-metric authorising
  
  ## Screenshot
 
-![](auth.gif)
+![](ptr.gif)
 
 ## Build Instructions
 
